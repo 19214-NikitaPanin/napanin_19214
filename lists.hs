@@ -52,8 +52,8 @@ reverse' xs = helper [] xs
 
 --10
 concat' ::[a]->[a]->[a]
-concat' xs [] = xs
-concat' xs (y:ys) = concat' (append' xs y) ys
+concat' [] ys = ys
+concat' (x:xs) ys = x:(concat' xs ys)
 
 --11
 drop':: Integer -> [a] -> [a]
@@ -78,7 +78,7 @@ elem' (x:xs) s = if s==x then True else elem' xs s
 --15
 filter':: (a -> Bool) -> [a] -> [a]
 filter' test [] = []
-filter' test (x:xs) = if test x == True then x:(filter' test xs) else filter' test xs 
+filter' test (x:xs) = if test x then x:(filter' test xs) else filter' test xs 
 
 --16
 map':: (a -> b)->[a]->[b]
