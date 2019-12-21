@@ -44,9 +44,11 @@ null' [] = True
 null' xs = False
 
 --9
-reverse':: [a]->[a]
-reverse' [] = []
-reverse' (x:xs) = append' (reverse' xs) x 
+reverse':: [a] -> [a]
+reverse' xs = helper [] xs
+    where
+        helper a [] = a
+        helper a (x:xs) = helper (x:a) xs
 
 --10
 concat' ::[a]->[a]->[a]
@@ -88,13 +90,3 @@ zip':: [a]->[a]->[(a,a)]
 zip' [] ys = []
 zip' xs [] = []
 zip' (x:xs) (y:ys) = (x,y): (zip' xs ys)
-
-
-	
-
-		
-
-
-
-
-
