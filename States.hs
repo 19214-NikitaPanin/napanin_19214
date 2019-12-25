@@ -15,7 +15,16 @@ instance (Eq num) =>  Eq (Complex num) where
 						
 instance (Num num, Ord num) =>  Ord (Complex num) where
 											compare (ToComplex re im) (ToComplex re1 im1) = compare (re * re + im * im) (re1 * re1 + im1 * im1)
-													
+
+instance (Num a, Show a, Ord a, Eq a) => Num (Complex a) where
+										(+) (ToComplex re1 im1) (ToComplex re2 im2) = ToComplex (re1 + re2) (im1 + im2)
+										(*) (ToComplex re1 im1) (ToComplex re2 im2) = ToComplex (re1*re2 - im1 * im2) (re1*re2 + im1 * im2)
+										abs (ToComplex r i) = ToComplex (abs r) (abs i)
+										negate (ToComplex re im) = ToComplex re (negate im)
+										fromInteger int  = ToComplex (fromInteger int) 0  
+										signum (ToComplex re im) = ToComplex (signum re) 0
+
+	
 data QuantumState num = ToQuantumState num String
 
 instance (Show num) => Show (QuantumState num) where
@@ -53,23 +62,8 @@ fromPairList:: [(Complex a,String)] -> Qubit (Complex a)
 fromPairList [] = []
 fromPairList ((complex,state):xs) = (ToQuantumState complex state): (fromPairList xs)
 
---scalarProduct :: (Num a) => Qubit (Complex a) -> Qubit (Complex a) -> Complex a
---scalarProduct kub kub1 = lenA kub * lenB kub1 * cosinus kub kub1 where 
-												--lenA (ToQuantumState (ToComplex re im) state) = sqrt (re*re + im * im)
-												--lenB (ToQuantumState (ToComplex re im) state) = sqrt (re*re + im * im)
-												--cosinus (ToQuantumState (ToComplex re im) state) (ToQuantumState (ToComplex re1 im1) state1) = (re*re + im * im) / (lenA * lenB)
+scalarProduct:: (Num a, Show a, Ord a, Eq a) => Qubit (Complex a) -> Qubit (Complex a) -> a
+scalarProduct qubit1 qubit2 =  foldl (+) 0 $ zipWith (\ (ToQuantumState (ToComplex r1 i1) _ ) (ToQuantumState (ToComplex r2 i2) _ ) -> r1*r2 + i1*i2) qubit1 qubit2
 
---entagle:: (Num a) => Qubit a -> Qubit a -> Qubit a
---entagle (ToQuantumState (ToComplex re im) state) (ToQuantumState (ToComplex re1 im1) state1) = (ToQuantumState (ToComplex (re * re1) (im * im1)) (state ++ state1))
-
-
-
-
-
-
-
-
-	
-	
-	
-	
+entagle::(Num a) => Qubit a ->Qubit a ->Qubit a
+entagle qubit1 qubit2 = [ToQuantumState  (complex1*complex2) (state1++state2) |  (ToQuantumState complex1 state1) <- qubit1, (ToQuantumState complex2 state2) <- qubit2]
