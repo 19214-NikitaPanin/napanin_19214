@@ -55,13 +55,17 @@ main = do
 getRes suspect words |isInfixOf suspect words = []
                      |otherwise = suspect
 
-parse xs = if xs == [] then generate else (output xs) --чтобы возвращал одно и то же 
+toIO:: [Char] -> IO [Char]
+toIO xs = do
+ return xs
+ 
+parse::[Char] -> IO [Char]
+parse xs = if xs == [] then generate else toIO xs --чтобы возвращал одно и то же 
 
 generate = do
  words <- readFile "dictionary.txt"
  suspect <- main 
  let search = getRes suspect words 
- let outer = parse search  
- return "123"
-output xs = do
- return xs  
+ let outer = parse search
+ res <- outer 
+ return res
