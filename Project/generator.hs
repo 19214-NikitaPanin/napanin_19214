@@ -25,14 +25,14 @@ beauty1 res style |style == 1 = init res
 
 beauty2 rule rule2 res = concat(map (\x -> if x == 'c' && rule == 0 then ['c', 'k']
                                              else if x == 'c' && rule < 4 then ['c', 'h']
-										       else if x == 's' && rule2 == 0 then ['s', 'h']
-							                      else [x]) res)
+						 else if x == 's' && rule2 == 0 then ['s', 'h']
+						    else [x]) res)
 
 beauty3 res rule | elem (last res) (consonants \\ ['y']) && rule < 7 = add res rule
                  |otherwise = res
                  where
                    add res rule = if rule < 2 then res ++ ['e']
-				                    else if rule < 4 then res ++ ['y']  
+				    else if rule < 4 then res ++ ['y']  
                                       else if rule < 7 then res ++ ['e', 'y']
                                         else res									  
 main:: IO String 
