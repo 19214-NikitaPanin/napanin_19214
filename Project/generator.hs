@@ -13,11 +13,12 @@ getResult style first (rc1:randomsC1) (rc2:randomsC2) (rv:randomsV) | style == 0
 								    | style == 0 && not (elem first vowels) = case2
 								    | style == 1 && elem first vowels = case3
 								    | otherwise = case4
-									 where
-						            case1 = (consonants !! rc1) : getResult style (consonants !! rc1) randomsC1 randomsC2 randomsV
-						            case2 = (vowels !! rv) : getResult style (vowels !! rv) randomsC1 randomsC2 randomsV
-						            case3 = (subcons !! rc2): getResult style (subcons !! rc2) randomsC1 randomsC2 randomsV
-						            case4 = (vowels !! rv) : (subcons !! rc2) : getResult style (vowels !! rv) randomsC1 randomsC2 randomsV
+							             where
+				case1 = (consonants !! rc1) : getResult style (consonants !! rc1) randomsC1 randomsC2 randomsV
+				case2 = (vowels !! rv) : getResult style (vowels !! rv) randomsC1 randomsC2 randomsV
+				case3 = (subcons !! rc2): getResult style (subcons !! rc2) randomsC1 randomsC2 randomsV
+				case4 = (vowels !! rv) : (subcons !! rc2) : getResult style (vowels !! rv) randomsC1 randomsC2 randomsV
+
 
 beauty1 res style |style == 1 = init res
                   |otherwise = res
