@@ -5,4 +5,4 @@
 
 >stack build --flag fltkhs:bundled
 
->stack run ghc
+>stack run ghci
